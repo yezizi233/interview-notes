@@ -14,9 +14,10 @@ from typing import Any, Iterable, Optional
 
 import requests
 from docx import Document
-from docx.enum.text import WD_BREAK
 from docx.oxml.ns import qn
 from docx.shared import Pt
+
+from name_verification import verify_terms_with_adapters
 
 
 STOPWORDS_EN = {
@@ -393,51 +394,17 @@ def extract_candidate_terms(text: str) -> list[str]:
 
 
 def verify_terms(terms: Iterable[str], network_available: bool) -> tuple[dict[str, NameCheck], list[str]]:
-    notices: list[str] = []
-    results: dict[str, NameCheck] = {}
-    if not network_available:
-        notices.append("Network unavailable: online proper-name verification is disabled.")
-        for term in terms:
-            results[term] = NameCheck(raw=term, normalized=term, status="unverified offline")
-        return results, notices
-
-    for term in terms:
-        if re.fullmatch(r"NCT\d{8}", term):
-            try:
-                response = requests.get(
-                    "https://clinicaltrials.gov/api/query/study_fields",
-                    params={
-                        "expr": term,
-                        "fields": "NCTId,BriefTitle,OfficialTitle",
-                        "min_rnk": 1,
-                        "max_rnk": 1,
-                        "fmt": "json",
-                    },
-                    timeout=10,
-                )
-                response.raise_for_status()
-                payload = response.json()
-                studies = payload.get("StudyFieldsResponse", {}).get("StudyFields", [])
-                if studies:
-                    study = studies[0]
-                    normalized = study.get("OfficialTitle", []) or study.get("BriefTitle", []) or [term]
-                    normalized_text = normalized[0]
-                    results[term] = NameCheck(
-                        raw=term,
-                        normalized=normalized_text,
-                        status="verified online",
-                        authority="ClinicalTrials.gov",
-                    )
-                    continue
-            except requests.RequestException as exc:
-                notices.append(f"ClinicalTrials.gov lookup failed for {term}: {exc}")
-
-        results[term] = NameCheck(raw=term, normalized=term, status="unverified", note="No authoritative adapter configured.")
-
-    if any(value.status == "unverified" for value in results.values()):
-        notices.append(
-            "Some company/product/institution names remain unverified. Current automatic verification supports NCT trial IDs; other terms are preserved and flagged as unverified."
+    adapter_results, notices = verify_terms_with_adapters(terms, network_available)
+    results = {
+        term: NameCheck(
+            raw=record.raw,
+            normalized=record.normalized,
+            status=record.status,
+            authority=record.authority,
+            note=record.note,
         )
+        for term, record in adapter_results.items()
+    }
     return results, notices
 
 
@@ -1075,6 +1042,8 @@ def run_pipeline(args: argparse.Namespace) -> dict[str, Any]:
         "traceability_docx": str(trace_path),
         "segment_count": len(segments),
         "trace_entry_count": len(trace_entries),
+        "verified_term_count": sum(1 for item in name_checks.values() if item.status == "verified online"),
+        "unverified_term_count": sum(1 for item in name_checks.values() if item.status != "verified online"),
         "notices": notices + payload.get("notes", []),
     }
     return report
