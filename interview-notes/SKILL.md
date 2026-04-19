@@ -166,10 +166,10 @@ When online, verify names before finalizing the clean file.
 
 Preferred source order:
 
-1. official company or product site
-2. official registry or regulator page
-3. ClinicalTrials.gov or equivalent official trial registry
-4. official paper, official database entry, or issuer IR/newsroom page
+1. `SEC EDGAR` for public-company names and ticker symbols
+2. `DailyMed` for official drug or product names that DailyMed covers
+3. `ClinicalTrials.gov` for trial IDs plus sponsor or collaborator organization names
+4. other official registry, regulator, issuer IR, newsroom, or official product page when the automated adapters do not cover the term
 
 Rules:
 
@@ -177,6 +177,7 @@ Rules:
 - If the source text says `Arsenal` but the official name is longer or differently styled, use the verified standard form in the clean file when confidence is high
 - Record the original form, corrected form, source URL, and reason in the traceability file
 - If confidence is not high, preserve the source form and mark it `unverified`
+- If the current automated adapters do not support a term category, say so rather than pretending the name was verified
 
 ## Source Priority
 

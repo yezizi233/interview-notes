@@ -172,7 +172,12 @@ class TraceEntry:
 def detect_network() -> bool:
     try:
         response = requests.get(
-            "https://clinicaltrials.gov/api/query/study_fields?expr=NCT00000102&fields=NCTId&min_rnk=1&max_rnk=1&fmt=json",
+            "https://clinicaltrials.gov/api/v2/studies",
+            params={
+                "query.id": "NCT00000102",
+                "pageSize": 1,
+                "fields": "protocolSection.identificationModule",
+            },
             timeout=5,
         )
         return response.ok
@@ -387,7 +392,10 @@ def load_template_document(profile: TemplateProfile) -> Document:
 
 def extract_candidate_terms(text: str) -> list[str]:
     terms = set(re.findall(r"\bNCT\d{8}\b", text))
-    for match in re.findall(r"\b[A-Z][A-Za-z0-9]+(?:\s+[A-Z][A-Za-z0-9&()./-]+){0,3}\b", text):
+    pattern = re.compile(
+        r"\b[A-Z][A-Za-z0-9]+(?:\s+(?:[A-Z][A-Za-z0-9&()./-]+|of|and|for|the|de|du|la|le)){0,5}\b"
+    )
+    for match in pattern.findall(text):
         if len(match) > 2:
             terms.add(match.strip())
     return sorted(terms)

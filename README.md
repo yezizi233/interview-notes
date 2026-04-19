@@ -13,7 +13,7 @@ Most public note-taking skills stop at transcript summarization. This repository
 - interview notes only, not generic meeting minutes
 - template-constrained output
 - selective audio verification instead of blind full re-transcription
-- online proper-name checks when available
+- online proper-name checks from official sources when available
 - dual deliverables: `clear.docx` and `traceability.docx`
 
 ### 中文
@@ -146,6 +146,28 @@ The clean file is reader-facing.
 The traceability file is audit-facing and maps each point back to source evidence.
 
 对照文件面向核查，会把每条要点映射回原始证据。
+
+## Official Name Verification Coverage / 官方名称核验覆盖范围
+
+### English
+
+Current automatic adapters use official sources only:
+
+- `SEC EDGAR`: public-company names and ticker symbols
+- `DailyMed`: official drug or product names covered by DailyMed
+- `ClinicalTrials.gov`: trial identifiers plus sponsor or collaborator organization names
+
+If a term does not resolve with high confidence against one of these sources, the pipeline preserves the source form and marks it as unverified.
+
+### 中文
+
+当前自动核验只使用官方来源：
+
+- `SEC EDGAR`：上市公司名称和股票代码
+- `DailyMed`：DailyMed 收录的官方药品/产品名称
+- `ClinicalTrials.gov`：试验编号，以及 sponsor / collaborator 机构名称
+
+如果某个名称无法在这些官方来源上高置信命中，流程会保留原始写法，并把它标记为 `unverified`。
 
 ## Validation / 验证方式
 
