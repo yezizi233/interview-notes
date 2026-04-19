@@ -18,6 +18,102 @@ Produce faithful interview notes, not generic summaries.
 
 This skill is for interview notes only. Do not silently turn it into a meeting-minutes workflow.
 
+## Quick Usage / 快速使用
+
+### English
+
+Use this skill when the user wants to:
+
+- create interview notes from a transcript
+- create interview notes from a recording
+- create interview notes from a transcript plus recording
+- follow an uploaded interview-notes template strictly
+- generate both a clean final file and a traceability file
+- cross-check proper names online before finalizing
+
+Typical requests:
+
+- `Turn this transcript into interview notes.`
+- `Use this recording and transcript to draft interview notes.`
+- `Follow this existing interview-notes template exactly.`
+- `Generate a clean version and a traceability version.`
+
+Expected outputs:
+
+- one clean reader-facing note file
+- one audit-facing traceability file
+
+Repository companion script:
+
+```powershell
+python interview-notes/scripts/run_interview_notes.py `
+  --transcript examples/sample_transcript.txt `
+  --outdir output
+```
+
+Optional flags:
+
+- `--audio path/to/file.wav`
+- `--template path/to/template.docx`
+- `--output-language zh|en|auto`
+- `--provider auto|openai|anthropic|none`
+- `--network-mode auto|online|offline`
+
+### 中文
+
+当用户要做下面这些事时，应使用这个 skill：
+
+- 根据 transcript 生成访谈纪要
+- 根据录音生成访谈纪要
+- 同时根据 transcript 和录音生成访谈纪要
+- 严格参照用户上传的访谈纪要模板
+- 同时生成最终稿和对照文件
+- 在定稿前联网核验专有名词
+
+典型需求：
+
+- `把这份 transcript 整理成访谈纪要。`
+- `结合这份录音和转写生成访谈纪要。`
+- `严格按照我上传的访谈纪要模板输出。`
+- `请同时生成 clear 版本和 traceability 版本。`
+
+预期输出：
+
+- 一份面向阅读的最终稿
+- 一份面向核查的对照文件
+
+仓库内配套脚本：
+
+```powershell
+python interview-notes/scripts/run_interview_notes.py `
+  --transcript examples/sample_transcript.txt `
+  --outdir output
+```
+
+常用参数：
+
+- `--audio path/to/file.wav`
+- `--template path/to/template.docx`
+- `--output-language zh|en|auto`
+- `--provider auto|openai|anthropic|none`
+- `--network-mode auto|online|offline`
+
+## Deliverables / 输出文件
+
+### English
+
+By default, the workflow should produce:
+
+- `<slug>_clear.docx`
+- `<slug>_traceability.docx`
+
+### 中文
+
+默认情况下，流程应输出：
+
+- `<slug>_clear.docx`
+- `<slug>_traceability.docx`
+
 ## Non-Negotiable Rules
 
 - Do not omit valid information points.
