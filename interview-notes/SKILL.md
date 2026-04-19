@@ -1,6 +1,15 @@
 ---
 name: interview-notes
-description: Generate high-fidelity interview notes from transcripts and/or recordings. Use whenever the user asks to write,整理,核对,重写,格式化, or template-match interview notes / 访谈纪要 from transcript text, audio recordings, or both. Also use when the user uploads a finished interview-notes example and wants the new output to strictly follow its section structure, indentation, numbering, bullet logic, or table style. Supports bilingual input, user-selected Chinese or English output, selective audio verification, evidence mapping, and dual deliverables: a clean final note file plus a traceability file.
+description: >
+  Generate high-fidelity interview notes from transcripts and/or recordings.
+  Use whenever the user asks to write, organize, verify, rewrite, format, or
+  template-match interview notes / 访谈纪要 from transcript text, audio
+  recordings, or both. Also use when the user uploads a finished
+  interview-notes example and wants the new output to strictly follow its
+  section structure, indentation, numbering, bullet logic, or table style.
+  Supports bilingual input, user-selected Chinese or English output, selective
+  audio verification, evidence mapping, and dual deliverables: a clean final
+  note file plus a traceability file.
 ---
 
 # Interview Notes

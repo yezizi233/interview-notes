@@ -1,0 +1,9 @@
+[00:00:08] Interviewer: Please introduce the overall study footprint in China and globally.
+[00:00:21] Interviewee: We currently run both China-only studies and global studies, with phase III and IV more likely to be multinational.
+[00:00:44] Interviewee: For smaller phase I work, the workflow is usually more localized, and randomization tooling is not always required.
+[00:01:06] Interviewer: How do you think about vendor selection?
+[00:01:14] Interviewee: Ease of use is still the top criterion. If a site has to learn a new system every time, that becomes operationally expensive.
+[00:01:34] Interviewee: We also look at build time, update speed, and whether the vendor can support global trials around the clock.
+[00:01:59] Interviewer: Do you keep the same vendor across phases?
+[00:02:05] Interviewee: Not necessarily. It depends on continuity of sites, prior quality issues, and whether the study scope expands from local to multinational.
+[00:02:31] Interviewee: If a license-in asset comes from another company, we often re-evaluate and may switch to our preferred vendor list.
